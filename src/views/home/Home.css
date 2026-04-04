@@ -1,0 +1,68 @@
+.home-view {
+  width: 100%;
+}
+
+.hero-section {
+  height: 60vh;
+  min-height: 400px;
+  background: linear-gradient(rgba(15, 15, 26, 0.8), rgba(15, 15, 26, 0.9)),
+              url('/src/assets/hero.png') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-bottom: 2px solid var(--acento);
+}
+
+.hero-content h1 {
+  font-family: var(--font-logo);
+  font-size: 3.5rem;
+  color: var(--acento);
+  text-shadow: 0 0 20px var(--acento);
+  margin-bottom: 1.5rem;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.btn-cta {
+  background: var(--acento);
+  color: #000;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+}
+
+.btn-cta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 40px var(--acento);
+}
+
+.seccion {
+  padding: 80px 0;
+}
+
+.seccion h2 {
+  font-family: var(--font-logo);
+  font-size: 2rem;
+  color: var(--acento);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  text-align: center;
+  min-height: 200px;
+  align-items: center;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}

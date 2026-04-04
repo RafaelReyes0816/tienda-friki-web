@@ -1,0 +1,168 @@
+#header {
+  background: rgba(10, 10, 20, 0.98);
+  padding: 1.2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  border-bottom: 3px solid var(--acento);
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.2);
+  height: var(--header-height);
+}
+
+.logo a {
+  font-family: var(--font-logo);
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: var(--acento);
+  text-shadow: 0 0 15px var(--acento);
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--texto);
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: var(--transition);
+  position: relative;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--acento);
+  text-shadow: 0 0 10px var(--acento);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: -10px;
+  left: 50%;
+  background: var(--acento);
+  transition: 0.4s;
+  transform: translateX(-50%);
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+}
+
+#contador-carrito {
+  background: var(--secundario);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.75rem;
+  margin-left: 6px;
+}
+
+.user-area {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--acento);
+  border: 2px solid var(--acento);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-auth:hover {
+  background: var(--acento);
+  color: #000;
+  box-shadow: 0 0 20px var(--acento);
+}
+
+.btn-register {
+  color: var(--texto);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.btn-register:hover {
+  color: var(--acento);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(15, 15, 26, 0.6);
+  padding: 5px 15px;
+  border-radius: 50px;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--acento);
+}
+
+.user-role {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-logout {
+  color: var(--secundario);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.btn-logout:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.cart-link, .admin-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-icon {
+  color: var(--acento);
+}
+
+@media (max-width: 768px) {
+  nav {
+    display: none; /* TODO: Implementar menú hamburguesa móvil */
+  }
+}

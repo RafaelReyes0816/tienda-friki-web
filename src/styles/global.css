@@ -1,0 +1,64 @@
+:root {
+  /* Colores de Tienda Fiki Borrador */
+  --fondo: #0F0F1A;
+  --texto: #E0E0FF;
+  --acento: #00D9FF;
+  --secundario: #FF2E63;
+  --morado: #9D4EDD;
+  --oscuro: #1A1A2E;
+  
+  /* Fuentes */
+  --font-logo: 'Orbitron', sans-serif;
+  --font-base: 'Roboto', sans-serif;
+  
+  /* Otros */
+  --header-height: 80px;
+  --transition: 0.3s ease;
+  --glow: 0 0 15px var(--acento);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-base);
+  background: var(--fondo);
+  color: var(--texto);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Animaciones globales */
+@keyframes glow {
+  0% { text-shadow: 0 0 5px var(--acento); }
+  50% { text-shadow: 0 0 20px var(--acento); }
+  100% { text-shadow: 0 0 5px var(--acento); }
+}
+
+@keyframes pulso {
+  0% { transform: scale(1); box-shadow: 0 0 10px var(--secundario); }
+  50% { transform: scale(1.05); box-shadow: 0 0 25px var(--secundario); }
+  100% { transform: scale(1); box-shadow: 0 0 10px var(--secundario); }
+}
