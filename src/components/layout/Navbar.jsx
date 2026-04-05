@@ -2,16 +2,15 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, User, LogOut, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import { useCart } from '../../context/CartContext';
 import './Navbar.css';
 
 const Navbar = () => {
   const location = useLocation();
   const { user, logout, isAdmin } = useAuth();
+  const { cartCount } = useCart();
   
   const isActive = (path) => location.pathname === path;
-  
-  // Temporal: mock del contador del carrito
-  const cartCount = 0;
 
   return (
     <header id="header">
@@ -22,11 +21,13 @@ const Navbar = () => {
       <nav>
         <Link to="/" className={isActive('/') ? 'active' : ''}>Inicio</Link>
         <Link to="/productos" className={isActive('/productos') ? 'active' : ''}>Productos</Link>
-        <Link to="/carrito" className={`cart-link ${isActive('/carrito') ? 'active' : ''}`}>
-          <ShoppingCart size={20} className="nav-icon" />
-          <span>Carrito</span>
-          <span id="contador-carrito">({cartCount})</span>
-        </Link>
+        {user && !isAdmin() && (
+          <Link to="/carrito" className={`cart-link ${isActive('/carrito') ? 'active' : ''}`}>
+            <ShoppingCart size={20} className="nav-icon" />
+            <span>Carrito</span>
+            <span id="contador-carrito">({cartCount})</span>
+          </Link>
+        )}
         {isAdmin() && (
           <Link to="/admin" className={`admin-link ${isActive('/admin') ? 'active' : ''}`}>
             <Shield size={20} className="nav-icon" />

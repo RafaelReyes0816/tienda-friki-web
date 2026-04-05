@@ -15,6 +15,14 @@
   --header-height: 80px;
   --transition: 0.3s ease;
   --glow: 0 0 15px var(--acento);
+
+  /* Mapeo para componentes */
+  --primary: var(--acento);
+  --primary-dark: #00b8d9;
+  --secondary: var(--secundario);
+  --dark: var(--oscuro);
+  --white: #ffffff;
+  --light-bg: #f8f9fa;
 }
 
 * {
@@ -48,6 +56,31 @@ button {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+/* Botones base */
+.btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--oscuro);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
 }
 
 /* Animaciones globales */

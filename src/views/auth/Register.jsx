@@ -93,25 +93,17 @@ const Register = () => {
             </div>
             
             <div className="form-group">
-              <label>Rol (Opcional para pruebas)</label>
-              <select name="rol" value={formData.rol} onChange={handleChange}>
-                <option value="Cliente">Cliente</option>
-                <option value="Admin">Administrador</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
               <label>Contraseña</label>
               <input
                 name="contrasena"
                 type="password"
                 value={formData.contrasena}
                 onChange={handleChange}
-                placeholder="********"
+                placeholder="••••••••"
                 required
               />
             </div>
-            
+
             <div className="form-group">
               <label>Confirmar Contraseña</label>
               <input
@@ -119,7 +111,7 @@ const Register = () => {
                 type="password"
                 value={formData.confirmarContrasena}
                 onChange={handleChange}
-                placeholder="********"
+                placeholder="••••••••"
                 required
               />
             </div>
