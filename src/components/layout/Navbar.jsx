@@ -1,63 +1,68 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, Shield } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Shield, Package } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../context/CartContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, logout, isAdmin } = useAuth();
   const { cartCount } = useCart();
   
   const isActive = (path) => location.pathname === path;
 
-  return (
-    <header id="header">
-      <div className="logo">
-        <Link to="/">Tienda Fiki</Link>
-      </div>
-      
-      <nav>
-        <Link to="/" className={isActive('/') ? 'active' : ''}>Inicio</Link>
-        <Link to="/productos" className={isActive('/productos') ? 'active' : ''}>Productos</Link>
-        {user && !isAdmin() && (
-          <Link to="/carrito" className={`cart-link ${isActive('/carrito') ? 'active' : ''}`}>
-            <ShoppingCart size={20} className="nav-icon" />
-            <span>Carrito</span>
-            <span id="contador-carrito">({cartCount})</span>
-          </Link>
-        )}
-        {isAdmin() && (
-          <Link to="/admin" className={`admin-link ${isActive('/admin') ? 'active' : ''}`}>
-            <Shield size={20} className="nav-icon" />
-            <span>Admin</span>
-          </Link>
-        )}
-      </nav>
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
-      <div className="user-area">
-        {user ? (
-          <div className="user-profile">
-            <div className="user-info">
-              <span className="user-name">{user.nombre}</span>
-              <span className="user-role">{user.rol}</span>
+  return (
+    <header className="navbar">
+      <div className="container navbar-content">
+        <Link to="/" className="logo">
+          Tienda <span>Fiki</span>
+        </Link>
+
+        <nav>
+          <Link to="/" className={isActive('/') ? 'active' : ''}>Inicio</Link>
+          <Link to="/productos" className={isActive('/productos') ? 'active' : ''}>Productos</Link>
+          
+          {user && !isAdmin() && (
+            <>
+              <Link to="/pedidos" className={isActive('/pedidos') ? 'active' : ''}>
+                <Package size={20} className="nav-icon" /> Mis Pedidos
+              </Link>
+              <Link to="/carrito" className={`cart-link ${isActive('/carrito') ? 'active' : ''}`}>
+                <ShoppingCart size={20} className="nav-icon" />
+                <span>Carrito</span>
+                <span id="contador-carrito">({cartCount})</span>
+              </Link>
+            </>
+          )}
+
+          {isAdmin() && (
+            <Link to="/admin" className={`admin-link ${isActive('/admin') ? 'active' : ''}`}>
+              <Shield size={20} className="nav-icon" /> Admin
+            </Link>
+          )}
+        </nav>
+
+        <div className="auth-buttons">
+          {user ? (
+            <div className="user-menu">
+              <span className="user-name">Hola, {user.nombre.split(' ')[0]}</span>
+              <button onClick={handleLogout} className="logout-btn" title="Cerrar Sesión">
+                <LogOut size={20} />
+              </button>
             </div>
-            <button onClick={logout} className="btn-logout" title="Cerrar Sesión">
-              <LogOut size={20} />
-            </button>
-          </div>
-        ) : (
-          <>
-            <Link to="/login" className="btn-auth">
-              <User size={18} />
-              <span>Entrar</span>
-            </Link>
-            <Link to="/registro" className="btn-register">
-              Registro
-            </Link>
-          </>
-        )}
+          ) : (
+            <>
+              <Link to="/login" className="login-btn">Iniciar Sesión</Link>
+              <Link to="/registro" className="register-btn">Registrarse</Link>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );

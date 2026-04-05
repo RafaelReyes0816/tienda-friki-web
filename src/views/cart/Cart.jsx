@@ -1,11 +1,76 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import orderService from '../../services/orderService';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Loader2, ShoppingCart, CheckCircle2 } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Cart.css';
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleCheckout = async () => {
+    try {
+      setLoading(true);
+      setError('');
+
+      const orderData = {
+        codigo: `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+        fecha: new Date().toISOString(),
+        estado: 'Pendiente',
+        total: cartTotal,
+        usuarioId: user.id,
+        metodoPago: 'Efectivo',
+        detalles: cartItems.map(item => ({
+          productoId: item.id,
+          cantidad: item.quantity,
+          precioUnitario: item.precio,
+          subtotal: item.precio * item.quantity
+        }))
+      };
+
+      await orderService.createOrder(orderData);
+      clearCart();
+      setShowSuccess(true);
+    } catch (err) {
+      setError(err.message || 'Error al procesar la compra.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFinalizarCompra = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    handleCheckout();
+  };
+
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    navigate('/pedidos');
+  };
+
+  if (showSuccess) {
+    return (
+      <div className="cart-view container">
+        <div className="success-message">
+          <CheckCircle2 size={80} className="success-icon" />
+          <h1 className="success-title">¡Compra Exitosa!</h1>
+          <p className="success-text">Tu pedido ha sido procesado con éxito. Puedes revisarlo en la sección de "Mis Pedidos".</p>
+          <button className="btn btn-primary" onClick={handleCloseSuccess}>
+            Ver Mis Pedidos
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -43,9 +108,9 @@ const Cart = () => {
                 )}
               </div>
               <div className="item-details">
-                <span className="item-franchise">{item.franjicia}</span>
+                <span className="item-franchise">{item.franquicia}</span>
                 <h3 className="item-name">{item.nombre}</h3>
-                <span className="item-price-unit">${item.precio.toFixed(2)} c/u</span>
+                <span className="item-price-unit">Bs. {item.precio.toFixed(2)} c/u</span>
               </div>
               <div className="item-quantity">
                 <button 
@@ -64,7 +129,7 @@ const Cart = () => {
                 </button>
               </div>
               <div className="item-subtotal">
-                <span>${(item.precio * item.quantity).toFixed(2)}</span>
+                <span>Bs. {(item.precio * item.quantity).toFixed(2)}</span>
               </div>
               <button 
                 onClick={() => removeFromCart(item.id)}
@@ -82,7 +147,7 @@ const Cart = () => {
             <h3>Resumen del Pedido</h3>
             <div className="summary-row">
               <span>Subtotal</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>Bs. {cartTotal.toFixed(2)}</span>
             </div>
             <div className="summary-row">
               <span>Envío</span>
@@ -91,10 +156,21 @@ const Cart = () => {
             <hr />
             <div className="summary-row total">
               <span>Total</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>Bs. {cartTotal.toFixed(2)}</span>
             </div>
-            <button className="btn btn-primary checkout-btn">
-              Finalizar Compra <ArrowRight size={20} />
+            
+            {error && <div className="cart-error">{error}</div>}
+
+            <button 
+              className="btn btn-primary checkout-btn" 
+              onClick={handleFinalizarCompra}
+              disabled={loading}
+            >
+              {loading ? (
+                <><Loader2 className="spinner" size={20} /> Procesando...</>
+              ) : (
+                <><ShoppingCart size={20} /> Finalizar Compra <ArrowRight size={20} /></>
+              )}
             </button>
             <Link to="/productos" className="continue-shopping">
               Continuar comprando
@@ -102,6 +178,7 @@ const Cart = () => {
           </div>
         </aside>
       </div>
+
     </div>
   );
 };

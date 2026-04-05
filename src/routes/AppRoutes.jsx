@@ -4,6 +4,8 @@ import Layout from '../components/layout/Layout';
 import Home from '../views/home/Home';
 import Products from '../views/products/Products';
 import Cart from '../views/cart/Cart';
+import OrderHistory from '../views/orders/OrderHistory';
+import AdminDashboard from '../views/admin/AdminDashboard';
 import Login from '../views/auth/Login';
 import Register from '../views/auth/Register';
 import { useAuth } from '../hooks/useAuth';
@@ -16,8 +18,6 @@ const AdminRoute = ({ children }) => {
 };
 
 // Vistas placeholder
-const AdminDashboard = () => <div className="container seccion"><h1>Panel de Administración</h1><p>Bienvenido, Admin.</p></div>;
-
 const AppRoutes = () => {
   return (
     <Layout>
@@ -25,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/productos" element={<Products />} />
         <Route path="/carrito" element={<Cart />} />
+        <Route path="/pedidos" element={<OrderHistory />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
         
