@@ -3,12 +3,15 @@ import { useAuth } from '../../hooks/useAuth';
 import orderService from '../../services/orderService';
 import { Package, Calendar, ChevronRight, ShoppingBag, CreditCard } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import OrderDetailsModal from '../../components/orders/OrderDetailsModal';
 import './OrderHistory.css';
 
 const OrderHistory = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchOrders = useCallback(async () => {
     if (!user) return;
@@ -27,6 +30,16 @@ const OrderHistory = () => {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  const handleViewDetails = (order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
+  };
 
   if (loading) return <div className="orders-loading container">Cargando tu historial...</div>;
 
@@ -85,13 +98,20 @@ const OrderHistory = () => {
                 <span className="total-label">Total pagado</span>
                 <span className="total-value">Bs. {order.total.toFixed(2)}</span>
               </div>
-              <button className="btn-order-details">
+              <button className="btn-order-details" onClick={() => handleViewDetails(order)}>
                 Ver detalles <ChevronRight size={18} />
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {isModalOpen && (
+        <OrderDetailsModal 
+          order={selectedOrder} 
+          onClose={closeModal} 
+        />
+      )}
     </div>
   );
 };
