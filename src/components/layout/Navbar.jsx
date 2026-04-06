@@ -1,4 +1,4 @@
-import { ShoppingCart, LogOut, Package, PlusCircle, Trash2 } from 'lucide-react';
+import { ShoppingCart, LogOut, Package, PlusCircle, Trash2, ClipboardList } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../context/CartContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const Navbar = () => {
   const admin = user && isAdmin();
   const adminAddActive = location.pathname === '/admin/agregar-producto';
   const adminDeleteActive = location.pathname === '/admin/borrar-producto';
+  const adminOrdersActive = location.pathname === '/admin/pedidos';
 
   return (
     <header className="navbar">
@@ -29,9 +30,11 @@ const Navbar = () => {
         </Link>
 
         <nav>
-          <Link to="/" className={isActive('/') ? 'active' : ''}>
-            Inicio
-          </Link>
+          {!admin && (
+            <Link to="/" className={isActive('/') ? 'active' : ''}>
+              Inicio
+            </Link>
+          )}
           <Link to="/productos" className={isActive('/productos') ? 'active' : ''}>
             Productos
           </Link>
@@ -62,6 +65,12 @@ const Navbar = () => {
                 className={`admin-nav-link ${adminDeleteActive ? 'active' : ''}`}
               >
                 <Trash2 size={20} className="nav-icon" /> Borrar producto
+              </Link>
+              <Link
+                to="/admin/pedidos"
+                className={`admin-nav-link ${adminOrdersActive ? 'active' : ''}`}
+              >
+                <ClipboardList size={20} className="nav-icon" /> Gestionar pedidos
               </Link>
             </>
           )}

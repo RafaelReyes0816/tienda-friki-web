@@ -45,6 +45,30 @@ const orderService = {
       console.error('Error al obtener todos los pedidos:', error);
       throw error;
     }
+  },
+
+  /**
+   * Actualiza el estado de un pedido (Solo Admin).
+   */
+  updateOrderStatus: async (orderId, newStatus) => {
+    try {
+      // Primero obtener el pedido completo
+      const orderResponse = await api.get(`/pedidos/${orderId}`);
+      const order = orderResponse.data;
+      
+      // Actualizar el estado
+      order.estado = newStatus;
+      
+      // Enviar el pedido completo con PUT
+      const response = await api.put(`/pedidos/${orderId}`, order);
+      return response.data;
+    } catch (error) {
+      console.error('Error al actualizar estado del pedido:', error);
+      if (error.response?.status === 405) {
+        throw new Error('El backend no soporta la actualización de pedidos. Contacta al administrador.');
+      }
+      throw error;
+    }
   }
 };
 

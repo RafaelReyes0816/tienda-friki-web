@@ -7,6 +7,7 @@ import Cart from '../views/cart/Cart';
 import OrderHistory from '../views/orders/OrderHistory';
 import AdminAddProduct from '../views/admin/AdminAddProduct';
 import AdminDeleteProduct from '../views/admin/AdminDeleteProduct';
+import AdminOrdersManagement from '../views/admin/AdminOrdersManagement';
 import Login from '../views/auth/Login';
 import Register from '../views/auth/Register';
 import { useAuth } from '../hooks/useAuth';
@@ -42,6 +43,14 @@ const AppRoutes = () => {
           element={
             <AdminRoute>
               <AdminDeleteProduct />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/pedidos"
+          element={
+            <AdminRoute>
+              <AdminOrdersManagement />
             </AdminRoute>
           }
         />
