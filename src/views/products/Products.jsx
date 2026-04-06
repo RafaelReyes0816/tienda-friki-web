@@ -16,23 +16,23 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [productsData, categoriesData] = await Promise.all([
-          productService.getAllProducts(),
-          productService.getAllCategories()
-        ]);
-        setProducts(productsData);
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error("Error al cargar el catálogo:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const [productsData, categoriesData] = await Promise.all([
+        productService.getAllProducts(),
+        productService.getAllCategories(),
+      ]);
+      setProducts(productsData);
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error('Error al cargar el catálogo:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -84,10 +84,16 @@ const Products = () => {
           </div>
           
           {/* RF-01: Grid de productos con cards detalladas */}
-          <ProductGrid 
-            products={filteredProducts} 
-            loading={loading} 
-            emptyMessage={searchTerm ? `No se encontraron resultados para "${searchTerm}"` : "No hay productos disponibles en esta categoría."}
+          <ProductGrid
+            products={filteredProducts}
+            loading={loading}
+            categories={categories}
+            onCatalogRefresh={fetchData}
+            emptyMessage={
+              searchTerm
+                ? `No se encontraron resultados para "${searchTerm}"`
+                : 'No hay productos disponibles en esta categoría.'
+            }
           />
         </main>
       </div>

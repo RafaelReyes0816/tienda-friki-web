@@ -1,0 +1,95 @@
+.edit-product-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+
+.edit-product-dialog {
+  background: linear-gradient(165deg, var(--surface-elevated) 0%, var(--surface) 100%);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 217, 255, 0.08);
+  border: 1px solid var(--border-accent-soft);
+  border-bottom: 3px solid var(--acento);
+  color: var(--texto);
+}
+
+.edit-product-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: 1px solid var(--border-accent-soft);
+  border-bottom: 3px solid var(--acento);
+  background: rgba(15, 15, 26, 0.9);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--texto);
+  box-sizing: border-box;
+}
+
+.edit-product-close:hover {
+  background: rgba(0, 217, 255, 0.12);
+  color: var(--acento);
+}
+
+.edit-product-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--acento);
+  margin: 0 40px 4px 0;
+  text-shadow: 0 0 16px rgba(0, 217, 255, 0.25);
+}
+
+.edit-product-subtitle {
+  color: var(--text-muted);
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+}
+
+.edit-product-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.edit-product-alert-error {
+  background: rgba(255, 46, 99, 0.12);
+  color: #ffb3c6;
+  border: 1px solid rgba(255, 46, 99, 0.4);
+  border-bottom: 3px solid var(--secundario);
+}
+
+.edit-product-alert-success {
+  background: rgba(0, 217, 255, 0.1);
+  color: #9cf0ff;
+  border: 1px solid var(--border-accent-soft);
+  border-bottom: 3px solid var(--acento);
+}
+
+.edit-product-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}

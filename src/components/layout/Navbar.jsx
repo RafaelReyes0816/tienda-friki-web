@@ -1,4 +1,4 @@
-import { ShoppingCart, User, LogOut, Shield, Package } from 'lucide-react';
+import { ShoppingCart, LogOut, Package, PlusCircle, Trash2 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../context/CartContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -17,6 +17,10 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const admin = user && isAdmin();
+  const adminAddActive = location.pathname === '/admin/agregar-producto';
+  const adminDeleteActive = location.pathname === '/admin/borrar-producto';
+
   return (
     <header className="navbar">
       <div className="container navbar-content">
@@ -25,9 +29,13 @@ const Navbar = () => {
         </Link>
 
         <nav>
-          <Link to="/" className={isActive('/') ? 'active' : ''}>Inicio</Link>
-          <Link to="/productos" className={isActive('/productos') ? 'active' : ''}>Productos</Link>
-          
+          <Link to="/" className={isActive('/') ? 'active' : ''}>
+            Inicio
+          </Link>
+          <Link to="/productos" className={isActive('/productos') ? 'active' : ''}>
+            Productos
+          </Link>
+
           {user && !isAdmin() && (
             <>
               <Link to="/pedidos" className={isActive('/pedidos') ? 'active' : ''}>
@@ -41,10 +49,21 @@ const Navbar = () => {
             </>
           )}
 
-          {isAdmin() && (
-            <Link to="/admin" className={`admin-link ${isActive('/admin') ? 'active' : ''}`}>
-              <Shield size={20} className="nav-icon" /> Admin
-            </Link>
+          {admin && (
+            <>
+              <Link
+                to="/admin/agregar-producto"
+                className={`admin-nav-link ${adminAddActive ? 'active' : ''}`}
+              >
+                <PlusCircle size={20} className="nav-icon" /> Agregar producto
+              </Link>
+              <Link
+                to="/admin/borrar-producto"
+                className={`admin-nav-link ${adminDeleteActive ? 'active' : ''}`}
+              >
+                <Trash2 size={20} className="nav-icon" /> Borrar producto
+              </Link>
+            </>
           )}
         </nav>
 

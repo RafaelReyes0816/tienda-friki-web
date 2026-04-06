@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import HeroCarousel from '../../components/home/HeroCarousel';
 import ProductGrid from '../../components/products/ProductGrid';
 import productService from '../../services/productService';
@@ -9,32 +9,33 @@ import './Home.css';
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        setLoading(true);
-        const allProducts = await productService.getAllProducts();
-        
-        // RF-04: Productos Destacados
-        const featured = allProducts.filter(p => p.destacado).slice(0, 4);
-        setFeaturedProducts(featured);
-        
-        // RF-05: Novedades (últimos 4 productos ingresados)
-        // Asumiendo que los últimos IDs son los más nuevos
-        const arrivals = [...allProducts].sort((a, b) => b.id - a.id).slice(0, 4);
-        setNewArrivals(arrivals);
-        
-      } catch (error) {
-        console.error("Error al cargar datos de inicio:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchHomeData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const [allProducts, categoriesData] = await Promise.all([
+        productService.getAllProducts(),
+        productService.getAllCategories(),
+      ]);
+      setCategories(categoriesData);
 
-    fetchHomeData();
+      const featured = allProducts.filter((p) => p.destacado).slice(0, 4);
+      setFeaturedProducts(featured);
+
+      const arrivals = [...allProducts].sort((a, b) => b.id - a.id).slice(0, 4);
+      setNewArrivals(arrivals);
+    } catch (error) {
+      console.error('Error al cargar datos de inicio:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchHomeData();
+  }, [fetchHomeData]);
 
   return (
     <div className="home-view">
@@ -53,9 +54,11 @@ const Home = () => {
               Ver todo <ArrowRight size={18} />
             </Link>
           </div>
-          <ProductGrid 
-            products={featuredProducts} 
-            loading={loading} 
+          <ProductGrid
+            products={featuredProducts}
+            loading={loading}
+            categories={categories}
+            onCatalogRefresh={fetchHomeData}
             emptyMessage="No hay productos destacados en este momento."
           />
         </section>
@@ -80,9 +83,11 @@ const Home = () => {
               Ver todo <ArrowRight size={18} />
             </Link>
           </div>
-          <ProductGrid 
-            products={newArrivals} 
-            loading={loading} 
+          <ProductGrid
+            products={newArrivals}
+            loading={loading}
+            categories={categories}
+            onCatalogRefresh={fetchHomeData}
             emptyMessage="Próximamente nuevos ingresos."
           />
         </section>

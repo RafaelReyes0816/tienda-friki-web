@@ -57,6 +57,11 @@ nav a.active {
   text-shadow: 0 0 10px var(--acento);
 }
 
+.admin-nav-link.active {
+  color: var(--acento);
+  text-shadow: 0 0 10px var(--acento);
+}
+
 .nav-icon {
   color: var(--acento);
 }

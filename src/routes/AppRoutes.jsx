@@ -5,19 +5,18 @@ import Home from '../views/home/Home';
 import Products from '../views/products/Products';
 import Cart from '../views/cart/Cart';
 import OrderHistory from '../views/orders/OrderHistory';
-import AdminDashboard from '../views/admin/AdminDashboard';
+import AdminAddProduct from '../views/admin/AdminAddProduct';
+import AdminDeleteProduct from '../views/admin/AdminDeleteProduct';
 import Login from '../views/auth/Login';
 import Register from '../views/auth/Register';
 import { useAuth } from '../hooks/useAuth';
 
-// Ruta protegida para Admin
 const AdminRoute = ({ children }) => {
   const { user, isAdmin } = useAuth();
   if (!user || !isAdmin()) return <Navigate to="/login" />;
   return children;
 };
 
-// Vistas placeholder
 const AppRoutes = () => {
   return (
     <Layout>
@@ -28,15 +27,23 @@ const AppRoutes = () => {
         <Route path="/pedidos" element={<OrderHistory />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
-        
-        {/* Rutas Protegidas */}
-        <Route 
-          path="/admin" 
+
+        <Route path="/admin" element={<Navigate to="/productos" replace />} />
+        <Route
+          path="/admin/agregar-producto"
           element={
             <AdminRoute>
-              <AdminDashboard />
+              <AdminAddProduct />
             </AdminRoute>
-          } 
+          }
+        />
+        <Route
+          path="/admin/borrar-producto"
+          element={
+            <AdminRoute>
+              <AdminDeleteProduct />
+            </AdminRoute>
+          }
         />
       </Routes>
     </Layout>

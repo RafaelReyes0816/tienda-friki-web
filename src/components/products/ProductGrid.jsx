@@ -2,7 +2,7 @@ import React from 'react';
 import ProductCard from './ProductCard';
 import './ProductGrid.css';
 
-const ProductGrid = ({ products, loading, emptyMessage = "No se encontraron productos" }) => {
+const ProductGrid = ({ products, loading, emptyMessage = "No se encontraron productos", categories, onCatalogRefresh }) => {
   if (loading) {
     return (
       <div className="product-grid-loading">
@@ -23,7 +23,12 @@ const ProductGrid = ({ products, loading, emptyMessage = "No se encontraron prod
   return (
     <div className="product-grid">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard
+          key={product.id}
+          product={product}
+          categories={categories}
+          onCatalogRefresh={onCatalogRefresh}
+        />
       ))}
     </div>
   );

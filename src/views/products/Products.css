@@ -11,13 +11,14 @@
 .catalog-header h1 {
   font-size: 2.5rem;
   font-weight: 800;
-  color: var(--dark);
+  color: var(--acento);
   margin-bottom: 12px;
+  text-shadow: 0 0 28px rgba(0, 217, 255, 0.35);
 }
 
 .catalog-header p {
   font-size: 1.125rem;
-  color: #6c757d;
+  color: rgba(224, 224, 255, 0.88);
   max-width: 600px;
   margin: 0 auto;
 }
@@ -35,12 +36,19 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background-color: white;
-  border: 1px solid #dee2e6;
+  background: var(--surface-elevated);
+  color: var(--texto);
+  border: 1px solid var(--border-accent-soft);
+  border-bottom: 3px solid var(--acento);
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   height: 48px;
+  box-sizing: border-box;
+}
+
+.mobile-filter-toggle:hover {
+  background: rgba(0, 217, 255, 0.1);
 }
 
 .catalog-layout {
@@ -60,7 +68,7 @@
 
 .results-info {
   margin-bottom: 24px;
-  color: #6c757d;
+  color: rgba(224, 224, 255, 0.72);
   font-size: 0.95rem;
   font-weight: 500;
 }

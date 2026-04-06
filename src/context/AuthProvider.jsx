@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     
     // Redirección inteligente basada en el ROL del usuario (RF-15)
     if (userData.rol === 'Admin') {
-      navigate('/admin');
+      navigate('/productos');
     } else {
       navigate('/');
     }

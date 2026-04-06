@@ -1,5 +1,5 @@
 .home-view {
-  background-color: var(--light-bg);
+  background-color: var(--fondo);
   min-height: 100vh;
 }
 
@@ -23,7 +23,7 @@
 .section-title h2 {
   font-size: 1.75rem;
   font-weight: 800;
-  color: var(--dark);
+  color: var(--texto);
   margin: 0;
 }
 
@@ -88,20 +88,23 @@
   opacity: 0.9;
 }
 
-.btn-secondary {
-  background-color: white;
-  color: var(--primary);
+/* .btn-secondary: estilos base en global.css (tema oscuro + borde acento) */
+.home-view .promo-banner .btn-secondary {
+  background: var(--oscuro);
+  color: var(--acento);
   padding: 14px 32px;
   font-weight: 700;
   border-radius: 10px;
   text-decoration: none;
   display: inline-block;
+  border: 1px solid rgba(0, 217, 255, 0.45);
+  border-bottom: 3px solid var(--acento);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.btn-secondary:hover {
+.home-view .promo-banner .btn-secondary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 24px rgba(0, 217, 255, 0.35);
 }
 
 @media (max-width: 768px) {

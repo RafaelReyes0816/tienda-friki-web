@@ -1,9 +1,9 @@
 import React from 'react';
-import { X, ShoppingCart, Star, Tag, Box, Info } from 'lucide-react';
+import { X, ShoppingCart, Tag, Box, Info, Pencil } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import './ProductModal.css';
 
-const ProductModal = ({ product, isOpen, onClose }) => {
+const ProductModal = ({ product, isOpen, onClose, isAdmin, onRequestEdit }) => {
   const { addToCart } = useCart();
 
   if (!isOpen || !product) return null;
@@ -32,7 +32,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             <div className="modal-header-info">
               <span className="modal-franchise">{franquicia}</span>
               <h2 className="modal-title">{nombre}</h2>
-              <div className="modal-price">Bs. {precio.toFixed(2)}</div>
+              <div className="modal-price">Bs. {Number(precio).toFixed(2)}</div>
             </div>
 
             <div className="modal-details-grid">
@@ -69,17 +69,32 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             </div>
 
             <div className="modal-actions">
-              <button 
-                className="btn btn-primary modal-add-btn"
-                disabled={stock === 0}
-                onClick={() => {
-                  addToCart(product);
-                  onClose();
-                }}
-              >
-                <ShoppingCart size={20} />
-                Añadir al carrito
-              </button>
+              {isAdmin ? (
+                <button
+                  type="button"
+                  className="btn btn-primary modal-add-btn"
+                  onClick={() => {
+                    onClose();
+                    onRequestEdit?.();
+                  }}
+                >
+                  <Pencil size={20} />
+                  Editar producto
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-primary modal-add-btn"
+                  disabled={stock === 0}
+                  onClick={() => {
+                    addToCart(product);
+                    onClose();
+                  }}
+                >
+                  <ShoppingCart size={20} />
+                  Añadir al carrito
+                </button>
+              )}
             </div>
           </div>
         </div>
