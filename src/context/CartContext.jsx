@@ -73,6 +73,7 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = useCallback(() => {
     setCartItems([]);
+    localStorage.removeItem('cart');
   }, []);
 
   // RF-10: Cálculo del total en tiempo real

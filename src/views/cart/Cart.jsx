@@ -36,6 +36,10 @@ const Cart = () => {
 
       await orderService.createOrder(orderData);
       clearCart();
+      
+      // Limpiar el carrito del localStorage también
+      localStorage.removeItem('cart');
+      
       setShowSuccess(true);
     } catch (err) {
       setError(err.message || 'Error al procesar la compra.');
@@ -54,7 +58,8 @@ const Cart = () => {
 
   const handleCloseSuccess = () => {
     setShowSuccess(false);
-    navigate('/pedidos');
+    // Forzar recarga de la página para actualizar el stock de productos
+    window.location.href = '/pedidos';
   };
 
   if (showSuccess) {

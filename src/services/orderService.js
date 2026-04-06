@@ -7,13 +7,42 @@ const orderService = {
   createOrder: async (orderData) => {
     try {
       console.log('Enviando datos del pedido:', orderData);
+      
+      // Primero verificar y actualizar el stock de cada producto
+      for (const detalle of orderData.detalles) {
+        try {
+          // Obtener el producto actual para verificar stock
+          const productResponse = await api.get(`/productos/${detalle.productoId}`);
+          const product = productResponse.data;
+          
+          // Verificar si hay stock suficiente
+          if (product.stock < detalle.cantidad) {
+            throw new Error(`Stock insuficiente para el producto ${product.nombre}. Stock disponible: ${product.stock}, solicitado: ${detalle.cantidad}`);
+          }
+          
+          // Actualizar el stock
+          const updatedProduct = {
+            ...product,
+            stock: product.stock - detalle.cantidad
+          };
+          
+          await api.put(`/productos/${detalle.productoId}`, updatedProduct);
+          console.log(`Stock actualizado para producto ${detalle.productoId}: ${product.stock} -> ${updatedProduct.stock}`);
+          
+        } catch (stockError) {
+          console.error(`Error al actualizar stock del producto ${detalle.productoId}:`, stockError);
+          throw new Error(`Error al actualizar stock: ${stockError.message}`);
+        }
+      }
+      
+      // Después de actualizar el stock, crear el pedido
       const response = await api.post('/pedidos', orderData);
       console.log('Respuesta del servidor:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error al crear el pedido:', error);
       console.error('Datos del error:', error.response?.data);
-      const message = error.response?.data?.message || 'No se pudo procesar el pedido.';
+      const message = error.response?.data?.message || error.message || 'No se pudo procesar el pedido.';
       throw new Error(message);
     }
   },
