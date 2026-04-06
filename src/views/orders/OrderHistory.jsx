@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import orderService from '../../services/orderService';
-import { Package, Calendar, Tag, ChevronRight, ShoppingBag, CreditCard } from 'lucide-react';
+import { Package, Calendar, ChevronRight, ShoppingBag, CreditCard } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './OrderHistory.css';
 
@@ -10,13 +10,8 @@ const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      fetchOrders();
-    }
-  }, [user]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
+    if (!user) return;
     try {
       setLoading(true);
       const data = await orderService.getOrdersByUser(user.id);
@@ -27,7 +22,11 @@ const OrderHistory = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   if (loading) return <div className="orders-loading container">Cargando tu historial...</div>;
 
@@ -65,7 +64,7 @@ const OrderHistory = () => {
                 <span><Calendar size={14} /> {new Date(order.fecha).toLocaleDateString()}</span>
                 <span><Package size={14} /> {order.detalles?.length || 0} artículos</span>
                 <span className="order-payment-method">
-                  <CreditCard size={14} /> {order.metodoPago === 'qr' ? 'QR' : order.metodoPago === 'transfer' ? 'Transferencia' : order.metodoPago === 'cash' ? 'Efectivo' : order.metodoPago}
+                  <CreditCard size={14} /> Efectivo
                 </span>
               </div>
             </div>

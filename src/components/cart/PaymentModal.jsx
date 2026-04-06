@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { X, QrCode, Landmark, Banknote, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
+import { X, Banknote, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 import './PaymentModal.css';
 
 const PaymentModal = ({ isOpen, onClose, onConfirm, total, loading }) => {
-  const [selectedMethod, setSelectedMethod] = useState('');
+  const [selectedMethod, setSelectedMethod] = useState('Efectivo');
   const [showSuccess, setShowSuccess] = useState(false);
 
   if (!isOpen) return null;
