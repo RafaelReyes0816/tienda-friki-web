@@ -8,6 +8,7 @@ import OrderHistory from '../views/orders/OrderHistory';
 import AdminAddProduct from '../views/admin/AdminAddProduct';
 import AdminDeleteProduct from '../views/admin/AdminDeleteProduct';
 import AdminOrdersManagement from '../views/admin/AdminOrdersManagement';
+import AdminReports from '../views/admin/AdminReports';
 import Login from '../views/auth/Login';
 import Register from '../views/auth/Register';
 import { useAuth } from '../hooks/useAuth';
@@ -51,6 +52,14 @@ const AppRoutes = () => {
           element={
             <AdminRoute>
               <AdminOrdersManagement />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/reportes"
+          element={
+            <AdminRoute>
+              <AdminReports />
             </AdminRoute>
           }
         />
